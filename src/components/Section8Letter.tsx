@@ -18,7 +18,7 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
     const el = letterScrollRef.current;
     if (!el) return;
 
-    // Detect if user has scrolled near bottom (within 30px)
+    // Detect if user has scrolled to the end of the letter content (within 30px)
     const isAtBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 30;
     if (isAtBottom && !hasScrolledToBottom) {
       setHasScrolledToBottom(true);
@@ -33,14 +33,14 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[100dvh] w-full px-4 py-8 relative z-10 select-none">
+    <div className="flex flex-col items-center justify-center min-h-[100dvh] w-full px-4 py-12 md:py-16 relative z-10 select-none">
       
-      {/* Stationery Paper Container */}
+      {/* 1. Natural Stationery Paper Container (Ends with signature ONLY) */}
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="w-full max-w-lg bg-[#FFFDF9] rounded-2xl shadow-xl border border-[#F3EDE2] p-6 md:p-10 relative overflow-hidden flex flex-col justify-between min-h-[520px] max-h-[85vh]"
+        className="w-full max-w-lg bg-[#FFFDF9] rounded-2xl shadow-xl border border-[#F3EDE2] p-6 md:p-10 relative overflow-hidden flex flex-col justify-between min-h-[500px]"
       >
         {/* Subtle background notebook lines for handwritten look */}
         <div className="absolute inset-0 bg-notebook-lines opacity-[0.12] pointer-events-none" />
@@ -52,7 +52,7 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
           </svg>
         </div>
 
-        {/* Letter Content */}
+        {/* Letter Header & Body */}
         <div className="flex-1 flex flex-col justify-start relative z-10 overflow-hidden">
           {/* Golden Stationery Header Date Badge */}
           <div className="flex items-center space-x-2 mb-3">
@@ -67,11 +67,11 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
             {LETTER_CONTENT.heading}
           </h3>
 
-          {/* Scrollable Letter Body */}
+          {/* Scrollable Letter Paragraphs */}
           <div
             ref={letterScrollRef}
             onScroll={handleScroll}
-            className="font-script text-base md:text-lg text-gray-700 space-y-4 leading-relaxed max-h-[380px] md:max-h-[420px] overflow-y-auto pr-3 custom-scrollbar font-normal scroll-smooth pb-4"
+            className="font-script text-base md:text-lg text-gray-700 space-y-4 leading-relaxed max-h-[380px] md:max-h-[420px] overflow-y-auto pr-3 custom-scrollbar font-normal scroll-smooth pb-2"
           >
             {LETTER_CONTENT.paragraphs.map((para, i) => (
               <p key={i} className="text-gray-700">
@@ -79,55 +79,47 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
               </p>
             ))}
 
-            {/* Letter Signoff inside scroll area */}
-            <div className="pt-6 border-t border-[#F3EDE2] mt-4">
+            {/* Letter Signoff - Ends Paper Naturally */}
+            <div className="pt-6 border-t border-[#F3EDE2] mt-4 pb-2">
               <p className="font-script text-base text-[#C5A059]">{LETTER_CONTENT.closing}</p>
               <p className="font-script text-xl md:text-2xl text-[#D38B9C] font-semibold mt-0.5">
                 {LETTER_CONTENT.sender}
               </p>
             </div>
-
-            {/* Emotional Ending Message & Button - Smoothly Fades In When Scrolled To End */}
-            <AnimatePresence>
-              {hasScrolledToBottom && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className="mt-6 pt-5 border-t border-[#F3EDE2] text-center flex flex-col items-center justify-center space-y-2 bg-[#FFF9F2]/70 p-4 rounded-2xl border border-pink-100/60 shadow-xs"
-                >
-                  <p className="font-script text-xl md:text-2xl text-[#D38B9C] font-semibold">
-                    💌 You’ve reached the end of my letter.
-                  </p>
-                  <p className="font-sans text-xs text-gray-600 max-w-sm leading-relaxed">
-                    Thank you for reading every word. There’s one last surprise waiting for you.
-                  </p>
-                  <motion.button
-                    onClick={handleButtonClick}
-                    whileHover={{ scale: 1.04, boxShadow: '0 8px 25px rgba(244,114,182,0.35)' }}
-                    whileTap={{ scale: 0.97 }}
-                    className="mt-3 flex items-center space-x-2 px-7 py-3 bg-gradient-to-r from-[#FFE3E8] via-[#FFD3DC] to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs md:text-sm rounded-full shadow-md hover:shadow-pink-300/50 transition-all duration-300 cursor-pointer border border-pink-100"
-                  >
-                    <span>Continue to the Final Surprise ✨</span>
-                  </motion.button>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
-        </div>
-
-        {/* Footer Indicator Bar */}
-        <div className="mt-4 pt-3 border-t border-[#F3EDE2] flex justify-between items-center relative z-10 text-xs font-sans text-gray-400">
-          <div>
-            {!hasScrolledToBottom ? 'Scroll down to finish reading 📜' : 'End of letter 💌'}
-          </div>
-          {hasScrolledToBottom && (
-            <span className="text-[11px] text-[#D38B9C] font-medium animate-pulse">
-              Final surprise unlocked ✨
-            </span>
-          )}
         </div>
       </motion.div>
+
+      {/* 2. Completely Separate Continuation Section Below Paper (80px Spacing) */}
+      <AnimatePresence>
+        {hasScrolledToBottom && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="mt-16 md:mt-24 text-center flex flex-col items-center justify-center space-y-3 z-20 max-w-md px-4 pb-12"
+          >
+            <h4 className="font-script text-2xl md:text-3xl text-[#D38B9C] font-semibold">
+              💌 You’ve reached the end of my letter.
+            </h4>
+            <p className="font-sans text-xs md:text-sm text-gray-600 leading-relaxed">
+              Thank you for reading every word.
+              <br />
+              There’s one last surprise waiting for you.
+            </p>
+            <div className="pt-4">
+              <motion.button
+                onClick={handleButtonClick}
+                whileHover={{ y: -3, scale: 1.04, boxShadow: '0 12px 30px rgba(244,114,182,0.35)' }}
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center space-x-2 px-8 py-3.5 bg-gradient-to-r from-[#FFE3E8] via-[#FFD3DC] to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs md:text-sm rounded-full shadow-md transition-all duration-300 cursor-pointer border border-pink-100"
+              >
+                <span>Continue to the Final Surprise ✨</span>
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Custom Styles */}
       <style jsx global>{`
