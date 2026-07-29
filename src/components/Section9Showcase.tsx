@@ -111,7 +111,7 @@ export default function Section9Showcase({
       {/* 1. Outer Wrapper with Calculated Scroll Height */}
       <div
         ref={targetRef}
-        style={{ height: `${totalPhotos * 60}vh` }}
+        style={{ height: `${totalPhotos * 85}vh` }}
         className={cn('relative w-full', className)}
       >
         {/* 2. Inner Sticky Container (Pinned at top: 0, 100vh height) */}
