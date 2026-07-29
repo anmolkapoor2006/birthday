@@ -116,14 +116,15 @@ export default function Section9Showcase({
       const timeline = timelineRef.current;
       if (!timeline) return;
 
-      const delta = e.deltaY > 0 ? 0.045 : -0.045;
+      // Gentle smooth scroll step matching Skiper UI 17
+      const delta = e.deltaY > 0 ? 0.008 : -0.008;
       const targetProgress = Math.max(0, Math.min(1, progressRef.current + delta));
       progressRef.current = targetProgress;
 
       gsap.to(timeline, {
         progress: targetProgress,
-        duration: 0.35,
-        ease: 'power1.out',
+        duration: 0.85,
+        ease: 'power2.out',
         overwrite: true,
       });
     };
@@ -143,14 +144,14 @@ export default function Section9Showcase({
       const deltaY = touchStartY.current - currentY;
       touchStartY.current = currentY;
 
-      const delta = deltaY > 0 ? 0.03 : -0.03;
+      const delta = deltaY > 0 ? 0.006 : -0.006;
       const targetProgress = Math.max(0, Math.min(1, progressRef.current + delta));
       progressRef.current = targetProgress;
 
       gsap.to(timeline, {
         progress: targetProgress,
-        duration: 0.25,
-        ease: 'power1.out',
+        duration: 0.65,
+        ease: 'power2.out',
         overwrite: true,
       });
     };
