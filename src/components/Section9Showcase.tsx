@@ -37,18 +37,24 @@ function ShowcaseCard({
   // Organic rotation angles per card index to look like a physical polaroid stack
   const targetRotation = index % 4 === 0 ? 4 : index % 4 === 1 ? -4.5 : index % 4 === 2 ? 3 : -3.5;
 
-  // Card 0 starts at y:0; cards 1..N slide up smoothly from y:100% to 0%
+  const exitEnd = Math.min(1, end + step * 0.7);
+
+  // Card 0 starts at y:0. Cards 1..N slide up from 100% to 0%. Past cards slide UP out of view to -120%
   const y = useTransform(
     scrollYProgress,
-    index === 0 ? [0, 1] : [start - step * 0.45, start],
-    index === 0 ? ['0%', '0%'] : ['100%', '0%']
+    index === 0
+      ? [0, end, exitEnd]
+      : [Math.max(0, start - step * 0.45), start, end, exitEnd],
+    index === 0
+      ? ['0%', '0%', '-120%']
+      : ['100%', '0%', '0%', '-120%']
   );
 
-  // Active card scales at 1; as next card covers it, scale down to 0.78 into background
+  // Active card scales to 1; as next card covers it, scale down to 0.8
   const scale = useTransform(
     scrollYProgress,
     [start, end],
-    [1, index === total - 1 ? 1 : 0.78]
+    [1, index === total - 1 ? 1 : 0.8]
   );
 
   // Smooth rotation into background tilt position as next card enters
@@ -58,11 +64,11 @@ function ShowcaseCard({
     [0, index === total - 1 ? 0 : targetRotation]
   );
 
-  // Subtle opacity dimming for cards deeper in stack to create 3D depth
+  // Card fades out as it exits upward so old cards don't pile up at the bottom
   const opacity = useTransform(
     scrollYProgress,
-    index === total - 1 ? [0, 1] : [start, Math.min(1, end)],
-    [1, index === total - 1 ? 1 : 0.85]
+    [start, end, exitEnd],
+    [1, 1, 0]
   );
 
   return (
