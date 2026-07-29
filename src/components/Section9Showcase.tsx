@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, RotateCcw, Sparkles } from 'lucide-react';
 import Image from 'next/image';
@@ -18,9 +18,8 @@ interface Section9ShowcaseProps {
 }
 
 /**
- * Section9Showcase — Fixed Screen Interactive Photo Stack
- * 100% locked to screen height with ZERO document page scrolling.
- * Allows tapping/swiping through cards with smooth animations & instant photo loads.
+ * Section9Showcase — Interactive Scroll-to-Change Photo Deck
+ * Scrolling up/down (or swiping) flips photos in place with zero page document scrolling.
  */
 export default function Section9Showcase({
   onReplay,
@@ -32,6 +31,8 @@ export default function Section9Showcase({
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalPhotos = photos.length;
   const isLast = currentIndex === totalPhotos - 1;
+  const isScrolling = useRef(false);
+  const touchStartY = useRef(0);
 
   const handleNext = () => {
     if (currentIndex < totalPhotos - 1) {
@@ -49,9 +50,71 @@ export default function Section9Showcase({
     }
   };
 
+  // Interactive Wheel Scroll Handler
+  const handleWheel = (e: React.WheelEvent) => {
+    if (isScrolling.current) return;
+
+    if (e.deltaY > 15) {
+      // Scroll Down -> Next Photo
+      if (currentIndex < totalPhotos - 1) {
+        isScrolling.current = true;
+        triggerHapticFeedback([15]);
+        playPopSound();
+        setCurrentIndex((prev) => prev + 1);
+        setTimeout(() => {
+          isScrolling.current = false;
+        }, 300);
+      }
+    } else if (e.deltaY < -15) {
+      // Scroll Up -> Prev Photo
+      if (currentIndex > 0) {
+        isScrolling.current = true;
+        triggerHapticFeedback([15]);
+        playPopSound();
+        setCurrentIndex((prev) => prev - 1);
+        setTimeout(() => {
+          isScrolling.current = false;
+        }, 300);
+      }
+    }
+  };
+
+  // Interactive Touch Swipe Handler for Mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY.current - touchEndY;
+
+    if (deltaY > 30) {
+      // Swipe Up -> Next Photo
+      if (currentIndex < totalPhotos - 1) {
+        triggerHapticFeedback([15]);
+        playPopSound();
+        setCurrentIndex((prev) => prev + 1);
+      }
+    } else if (deltaY < -30) {
+      // Swipe Down -> Prev Photo
+      if (currentIndex > 0) {
+        triggerHapticFeedback([15]);
+        playPopSound();
+        setCurrentIndex((prev) => prev - 1);
+      }
+    }
+  };
+
   return (
-    <div className={cn('flex flex-col items-center justify-between min-h-[100dvh] w-full px-4 py-6 relative z-10 select-none overflow-hidden', className)}>
-      
+    <div
+      onWheel={handleWheel}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className={cn(
+        'flex flex-col items-center justify-between min-h-[100dvh] w-full px-4 py-6 relative z-10 select-none overflow-hidden touch-none',
+        className
+      )}
+    >
       {/* ── HEADER ── */}
       <motion.div
         initial={{ opacity: 0, y: -15 }}
@@ -63,7 +126,7 @@ export default function Section9Showcase({
           <Sparkles className="w-5 h-5 text-pink-400 animate-pulse" />
         </h2>
         <p className="font-sans text-xs md:text-sm text-gray-500 mt-1 font-medium">
-          Tap photo or arrows to reveal our special memories 📸 ({currentIndex + 1} / {totalPhotos})
+          Scroll or swipe to flip photos 📸 ({currentIndex + 1} / {totalPhotos})
         </p>
       </motion.div>
 
@@ -129,10 +192,10 @@ export default function Section9Showcase({
               {currentIndex + 1} / {totalPhotos}
             </div>
 
-            {/* Tap Hint */}
+            {/* Scroll/Swipe Hint */}
             {!isLast && (
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/35 backdrop-blur-xs text-white/90 text-[11px] px-3.5 py-1 rounded-full z-20 font-sans tracking-wide">
-                Tap card for next photo ✨
+                Scroll up/down or swipe to flip ✨
               </div>
             )}
           </motion.div>
@@ -163,7 +226,7 @@ export default function Section9Showcase({
           </motion.div>
         ) : (
           <div className="flex justify-center items-center space-x-1 text-xs text-gray-400">
-            <span>Tap card or use arrows to flip photos</span>
+            <span>Scroll up/down or swipe to flip through photos</span>
           </div>
         )}
       </div>
