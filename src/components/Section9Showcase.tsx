@@ -61,8 +61,8 @@ function ShowcaseCard({
   // Subtle opacity dimming for cards deeper in stack to create 3D depth
   const opacity = useTransform(
     scrollYProgress,
-    [end, end + step * 2],
-    [1, 0.75]
+    index === total - 1 ? [0, 1] : [start, Math.min(1, end)],
+    [1, index === total - 1 ? 1 : 0.85]
   );
 
   return (
