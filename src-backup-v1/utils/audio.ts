@@ -1,0 +1,34 @@
+/**
+ * Synthesizes a soft, clean balloon-popping sound using the Web Audio API.
+ * This guarantees the sound works offline and does not rely on external MP3 downloads.
+ */
+export function playPopSound() {
+  if (typeof window === 'undefined') return;
+
+  try {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContextClass) return;
+
+    const ctx = new AudioContextClass();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    // A sweet balloon pop: quick frequency pitch sweep and fade
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(180, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(750, ctx.currentTime + 0.04);
+    osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.12);
+
+    // Fade out volume rapidly to make it click/pop rather than tone
+    gain.gain.setValueAtTime(0.25, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.13);
+  } catch (error) {
+    console.warn("Could not play synthesized sound: ", error);
+  }
+}

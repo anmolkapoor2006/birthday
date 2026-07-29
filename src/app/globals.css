@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FAF6F0;
+  --foreground: #2A2A2A;
+}
+
+@theme {
+  --font-script: var(--font-dancing-script);
+  --font-sans: var(--font-quicksand);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom font class fallback and helper */
+.font-script {
+  font-family: var(--font-dancing-script), cursive;
+}
+
+.font-handwriting {
+  font-family: var(--font-caveat), cursive;
+}
+
+/* Custom clip-path for envelope bottom flap */
+.clip-path-bottom-flap {
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+}
+
+/* Custom fade effects */
+.shadow-soft {
+  box-shadow: 0 10px 30px -10px rgba(211, 139, 156, 0.15);
+}
+
+/* Momentum scrolling for scrollable containers */
+.custom-scrollbar {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Hide scrollbars globally while preserving smooth scrolling */
+html, body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+  width: 0;
+  height: 0;
+}
