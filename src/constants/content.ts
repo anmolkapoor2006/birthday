@@ -206,3 +206,73 @@ export const STORY_CONTINUES = {
   heading: "Itna hi tha chalo ❤️",
   subheading: "I hope tumhe ye pasand aya hoga , chehre par ek achi si smile aayi hogi , chalo theek hai ab bye bye , i love you so much more ❤️",
 };
+
+export interface VoiceNote {
+  id: string;
+  title: string;
+  subtitle: string;
+  duration: string;
+  date: string;
+  audioUrl: string;
+  cassetteColor: string;
+  label: string;
+  side: 'A' | 'B';
+  note: string;
+  tags?: string[];
+}
+
+export const VOICE_NOTES: VoiceNote[] = [
+  {
+    id: 'tape-1',
+    title: 'Midnight Ramblings & Giggles',
+    subtitle: 'Side A • Track 1',
+    duration: '02:14',
+    date: 'Aug 14, 2024',
+    audioUrl: '/audio/ehsaas.mp3',
+    cassetteColor: 'from-pink-500 via-rose-400 to-amber-300',
+    label: 'Late Night Call 🌙 - For Golu',
+    side: 'A',
+    note: 'Remember when we talked until 4 AM and you got scolded for not sleeping? This melody always brings me back to that night. 💖',
+    tags: ['Wholesome', 'Midnight', 'Favorite']
+  },
+  {
+    id: 'tape-2',
+    title: 'That Cute Laugh & Soft Whispers',
+    subtitle: 'Side A • Track 2',
+    duration: '01:48',
+    date: 'Dec 12, 2025',
+    audioUrl: '/audio/jahaan-acoustic.mp3',
+    cassetteColor: 'from-purple-500 via-pink-400 to-indigo-400',
+    label: 'Golu Laughing 🌸 - Side A',
+    side: 'A',
+    note: 'Your voice instantly fixes even my worst days. If you ever feel down, press play on this tape and remember how much you mean to me.',
+    tags: ['Romantic', 'Voice Note']
+  },
+  {
+    id: 'tape-3',
+    title: 'Delhi Airport Goodbye & Coffee',
+    subtitle: 'Side B • Track 1',
+    duration: '02:05',
+    date: 'Apr 15, 2026',
+    audioUrl: '/audio/krish-kapoor-saiyaara.mp3',
+    cassetteColor: 'from-amber-400 via-orange-400 to-rose-400',
+    label: 'Airport Hug ✈️ - Special Edition',
+    side: 'B',
+    note: 'That 1-hour meet was worth every second of travel. The way you ran up and hugged me... I replay it in my head every single day.',
+    tags: ['Memories', 'First Meet']
+  },
+  {
+    id: 'tape-4',
+    title: 'A Special Birthday Wish for Priya',
+    subtitle: 'Side B • Track 2',
+    duration: '01:32',
+    date: 'Today 🎂',
+    audioUrl: '/audio/her.mp3',
+    cassetteColor: 'from-rose-400 via-pink-300 to-purple-300',
+    label: 'Happy Birthday Priya 🎂❤️',
+    side: 'B',
+    note: 'Happy Birthday my motu! Keep smiling, keep eating yummy food, and never stop being your adorable self. I love you so much!',
+    tags: ['Birthday', 'Love']
+  }
+];
+

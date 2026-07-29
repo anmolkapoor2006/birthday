@@ -106,3 +106,14 @@ A beautiful letter format with an envelope theme.
     * `paragraphs`: Array of paragraphs containing the letter's main body.
     * `closing`: Letter sign-off (e.g., `"With all my love,"`)
     * `sender`: Your name (e.g., `"Anmol ❤️"`)
+
+---
+
+### 10. Vintage Voice Notes Tape Player (`/voicenotes`)
+A standalone retro 80s cassette tape deck player and live microphone recorder.
+* **Path:** [src/constants/content.ts](file:///Users/anmol/birthday/src/constants/content.ts)
+* **Lines to Customize:**
+  * **`VOICE_NOTES` Array:** Add/edit custom audio files, handwritten notes, cassette color gradients, dates, and durations.
+* **Path:** [src/components/VintageTapePlayer.tsx](file:///Users/anmol/birthday/src/components/VintageTapePlayer.tsx)
+  * Custom cassette deck controls, mechanical sound synthesis, dual spinning spools, analog VU meters, and live `MediaRecorder` voice recording.
+

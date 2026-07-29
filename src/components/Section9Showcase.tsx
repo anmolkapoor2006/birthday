@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useRef } from 'react';
+import Link from 'next/link';
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
-import { RotateCcw, Sparkles } from 'lucide-react';
+import { RotateCcw, Sparkles, Radio } from 'lucide-react';
 import Image from 'next/image';
 import { SHOWCASE_PHOTOS, ShowcasePhotoContent, STORY_CONTINUES } from '@/constants/content';
 import { cn } from '@/lib/utils';
+
 
 interface Section9ShowcaseProps {
   onReplay: () => void;
@@ -191,13 +193,24 @@ export default function Section9Showcase({
             {STORY_CONTINUES.subheading}
           </p>
 
-          <button
-            onClick={onReplay}
-            className="flex items-center space-x-2 px-8 py-3.5 bg-gradient-to-r from-[#FFE3E8] to-[#FFD3DC] hover:from-[#FFD3DC] hover:to-[#FFC0CB] text-[#D38B9C] font-semibold text-sm rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer"
-          >
-            <RotateCcw className="w-4 h-4" />
-            <span>Replay surprise</span>
-          </button>
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center">
+            <Link
+              href="/voicenotes"
+              className="flex items-center justify-center space-x-2 px-6 py-3.5 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold text-sm rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer w-full sm:w-auto"
+            >
+              <Radio className="w-4 h-4" />
+              <span>Vintage Voice Notes Tape 🎙️</span>
+            </Link>
+
+            <button
+              onClick={onReplay}
+              className="flex items-center justify-center space-x-2 px-6 py-3.5 bg-gradient-to-r from-[#FFE3E8] to-[#FFD3DC] hover:from-[#FFD3DC] hover:to-[#FFC0CB] text-[#D38B9C] font-semibold text-sm rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer w-full sm:w-auto"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>Replay surprise</span>
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
