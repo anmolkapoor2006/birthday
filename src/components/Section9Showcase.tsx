@@ -191,15 +191,15 @@ export default function Section9Showcase({
       </div>
 
       {/* Sticky Cards Pin Area */}
-      <div className="sticky-cards-container relative flex h-[58vh] max-h-[500px] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl items-center justify-center overflow-hidden my-auto p-2">
+      <div className="sticky-cards-container relative flex h-[58vh] max-h-[500px] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl items-center justify-center my-auto p-2">
         
-        {/* Subtle Ambient Gradient Glow behind photos */}
-        <div className="absolute w-72 h-72 sm:w-96 sm:h-96 md:w-[500px] md:h-[500px] bg-gradient-to-tr from-pink-300/40 via-purple-200/40 to-rose-300/40 rounded-full blur-3xl pointer-events-none animate-pulse" />
-        <div className="absolute w-64 h-64 sm:w-80 sm:h-80 md:w-[460px] md:h-[460px] bg-gradient-to-br from-rose-400/25 via-pink-300/35 to-amber-200/30 rounded-full blur-2xl pointer-events-none" />
+        {/* Soft Ambient Floating Gradient Glow */}
+        <div className="absolute w-80 h-80 sm:w-[480px] sm:h-[480px] md:w-[600px] md:h-[600px] bg-gradient-to-tr from-pink-300/30 via-rose-200/40 to-purple-200/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
+        <div className="absolute w-72 h-72 sm:w-[400px] sm:h-[400px] bg-gradient-to-br from-rose-300/20 via-pink-200/30 to-amber-100/30 rounded-full blur-2xl pointer-events-none" />
 
         <div
           className={cn(
-            'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl bg-transparent shadow-2xl shadow-pink-200/60 border border-pink-100/80 z-10',
+            'relative h-full w-full aspect-[16/10] z-10',
             containerClassName
           )}
         >
@@ -210,7 +210,7 @@ export default function Section9Showcase({
                 imageRefs.current[i] = el;
               }}
               className={cn(
-                'absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border border-pink-100 shadow-md transform-gpu will-change-transform',
+                'absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border border-pink-100/70 shadow-xl shadow-pink-200/40 transform-gpu will-change-transform',
                 imageClassName
               )}
             >
