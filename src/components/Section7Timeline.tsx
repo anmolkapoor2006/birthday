@@ -47,9 +47,8 @@ export default function Section7Timeline({ onContinue }: Section7TimelineProps) 
         onScroll={handleScroll}
         className="w-full max-w-lg h-[400px] md:h-[460px] overflow-y-auto px-4 py-8 scroll-smooth custom-scrollbar relative border border-dashed border-pink-100 rounded-2xl bg-[#FFFBFB]/30"
       >
-        {/* Vertical Line */}
-        {/* On desktop: centered. On mobile: shifted left to coordinate with right-aligned elements */}
-        <div className="absolute left-6 md:left-1/2 top-8 bottom-8 w-0.5 border-l-2 border-dashed border-pink-200 -translate-x-1/2 pointer-events-none" />
+        {/* Continuous Solid Glowing Vertical Line */}
+        <div className="absolute left-6 md:left-1/2 top-10 bottom-12 w-1 bg-gradient-to-b from-pink-300 via-rose-400 to-pink-500 rounded-full -translate-x-1/2 pointer-events-none z-0 shadow-[0_0_8px_rgba(244,114,182,0.4)]" />
 
         <div className="space-y-12 relative z-10">
           {TIMELINE_MILESTONES.map((milestone, index) => {
