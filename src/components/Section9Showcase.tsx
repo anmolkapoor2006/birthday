@@ -34,25 +34,35 @@ function ShowcaseCard({
   const start = index * step;
   const end = (index + 1) * step;
 
-  // Card 0 is visible at y:0; cards 1..N slide up smoothly from y:100% to 0%
+  // Organic rotation angles per card index to look like a physical polaroid stack
+  const targetRotation = index % 4 === 0 ? 4 : index % 4 === 1 ? -4.5 : index % 4 === 2 ? 3 : -3.5;
+
+  // Card 0 starts at y:0; cards 1..N slide up smoothly from y:100% to 0%
   const y = useTransform(
     scrollYProgress,
-    index === 0 ? [0, 1] : [start - step * 0.4, start],
+    index === 0 ? [0, 1] : [start - step * 0.45, start],
     index === 0 ? ['0%', '0%'] : ['100%', '0%']
   );
 
-  // Active card scales to 1; as next card enters, scale down to 0.75
+  // Active card scales at 1; as next card covers it, scale down to 0.78 into background
   const scale = useTransform(
     scrollYProgress,
     [start, end],
-    [1, index === total - 1 ? 1 : 0.75]
+    [1, index === total - 1 ? 1 : 0.78]
   );
 
-  // Rotate slightly alternating (+3.5deg / -3.5deg) as card recedes
+  // Smooth rotation into background tilt position as next card enters
   const rotate = useTransform(
     scrollYProgress,
     [start, end],
-    [0, index === total - 1 ? 0 : index % 2 === 0 ? 3.5 : -3.5]
+    [0, index === total - 1 ? 0 : targetRotation]
+  );
+
+  // Subtle opacity dimming for cards deeper in stack to create 3D depth
+  const opacity = useTransform(
+    scrollYProgress,
+    [end, end + step * 2],
+    [1, 0.75]
   );
 
   return (
@@ -61,9 +71,10 @@ function ShowcaseCard({
         y,
         scale,
         rotate,
+        opacity,
         zIndex: index,
       }}
-      className="absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border border-pink-100 shadow-xl shadow-pink-200/40 transform-gpu will-change-transform"
+      className="absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border-4 border-white shadow-2xl shadow-pink-300/40 transform-gpu will-change-transform"
     >
       <div className="w-full h-full relative bg-pink-50">
         <Image
@@ -75,7 +86,7 @@ function ShowcaseCard({
           priority={index === 0}
           unoptimized
         />
-        {/* Lighting Overlay */}
+        {/* Warm Golden Lighting Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-amber-200/10 pointer-events-none z-10" />
         <div className="absolute inset-0 shadow-[inset_0_0_25px_rgba(224,139,166,0.3)] pointer-events-none z-10 rounded-3xl" />
       </div>
