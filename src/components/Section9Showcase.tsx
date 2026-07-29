@@ -89,7 +89,7 @@ function ShowcaseCard({
           fill
           className="object-cover object-center"
           sizes="(max-width: 768px) 380px, 600px"
-          priority={index === 0}
+          priority={index < 6}
           unoptimized
         />
       </div>
@@ -115,6 +115,16 @@ export default function Section9Showcase({
     target: targetRef,
     offset: ['start start', 'end end'],
   });
+
+  React.useEffect(() => {
+    // Preload all photo URLs silently into browser memory cache
+    photos.forEach((photo) => {
+      if (typeof window !== 'undefined') {
+        const img = new window.Image();
+        img.src = photo.imageUrl;
+      }
+    });
+  }, [photos]);
 
   return (
     <div className="w-full relative select-none">
