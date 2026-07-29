@@ -234,20 +234,20 @@ export default function Section9Showcase({
         </div>
       </div>
 
-      {/* Replay Surprise Section at bottom */}
-      <div className="pb-6 pt-2 flex flex-col items-center justify-center relative z-20">
+      {/* Fixed-Height Footer (prevents middle card deck from shrinking/compressing on last photo) */}
+      <div className="h-[140px] min-h-[140px] flex-shrink-0 w-full max-w-md flex flex-col items-center justify-center relative z-20 px-2 pb-2">
         {isCompleted ? (
-          <div className="w-full max-w-md p-6 bg-white/90 backdrop-blur-md rounded-3xl border border-pink-100 shadow-xl text-center flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-300">
-            <h3 className="font-script text-2xl md:text-3xl text-[#D38B9C] mb-2">
+          <div className="w-full p-4 bg-white/95 backdrop-blur-md rounded-2xl border border-pink-100 shadow-lg text-center flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-300">
+            <h3 className="font-script text-2xl text-[#D38B9C] mb-1">
               {STORY_CONTINUES.heading}
             </h3>
-            <p className="font-sans text-xs text-gray-600 mb-4 max-w-xs leading-relaxed">
+            <p className="font-sans text-[11px] text-gray-600 mb-3 max-w-xs leading-tight">
               {STORY_CONTINUES.subheading}
             </p>
 
             <button
               onClick={onReplay}
-              className="flex items-center space-x-2 px-7 py-3 bg-gradient-to-r from-[#FFE3E8] to-[#FFD3DC] hover:from-[#FFD3DC] hover:to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer"
+              className="flex items-center space-x-2 px-6 py-2.5 bg-gradient-to-r from-[#FFE3E8] to-[#FFD3DC] hover:from-[#FFD3DC] hover:to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Replay surprise</span>
