@@ -116,16 +116,16 @@ export default function Section9Showcase({
       const timeline = timelineRef.current;
       if (!timeline) return;
 
-      // Gentle smooth scroll step matching Skiper UI 17
-      const delta = e.deltaY > 0 ? 0.008 : -0.008;
-      const targetProgress = Math.max(0, Math.min(1, progressRef.current + delta));
+      // Ultra-slow trackpad dampening formula (max step of 0.0015 per scroll event)
+      const step = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY) * 0.00008, 0.0015);
+      const targetProgress = Math.max(0, Math.min(1, progressRef.current + step));
       progressRef.current = targetProgress;
 
       gsap.to(timeline, {
         progress: targetProgress,
-        duration: 0.85,
+        duration: 1.2,
         ease: 'power2.out',
-        overwrite: true,
+        overwrite: 'auto',
       });
     };
 
@@ -144,15 +144,15 @@ export default function Section9Showcase({
       const deltaY = touchStartY.current - currentY;
       touchStartY.current = currentY;
 
-      const delta = deltaY > 0 ? 0.006 : -0.006;
-      const targetProgress = Math.max(0, Math.min(1, progressRef.current + delta));
+      const step = Math.sign(deltaY) * Math.min(Math.abs(deltaY) * 0.00008, 0.0015);
+      const targetProgress = Math.max(0, Math.min(1, progressRef.current + step));
       progressRef.current = targetProgress;
 
       gsap.to(timeline, {
         progress: targetProgress,
-        duration: 0.65,
+        duration: 1.0,
         ease: 'power2.out',
-        overwrite: true,
+        overwrite: 'auto',
       });
     };
 
