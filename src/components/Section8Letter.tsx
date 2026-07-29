@@ -35,12 +35,12 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[100dvh] w-full px-4 py-12 md:py-16 relative z-10 select-none">
       
-      {/* 1. Natural Stationery Paper Container (Ends with signature ONLY) */}
+      {/* 1. Natural Stationery Paper Container */}
       <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        initial={{ opacity: 0, y: 15, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="w-full max-w-lg bg-[#FFFDF9] rounded-2xl shadow-xl border border-[#F3EDE2] p-6 md:p-10 relative overflow-hidden flex flex-col justify-between min-h-[500px]"
+        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
+        className="w-full max-w-lg bg-[#FFFDF9] rounded-2xl border border-[#F3EDE2] shadow-[0_12px_40px_rgba(211,139,156,0.12),0_2px_10px_rgba(0,0,0,0.03)] md:hover:-translate-y-1 md:hover:shadow-[0_22px_50px_rgba(211,139,156,0.18),0_4px_12px_rgba(0,0,0,0.04)] transition-all duration-300 p-6 md:p-10 relative overflow-hidden flex flex-col justify-between min-h-[500px]"
       >
         {/* Subtle background notebook lines for handwritten look */}
         <div className="absolute inset-0 bg-notebook-lines opacity-[0.12] pointer-events-none" />
@@ -63,29 +63,47 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
           </div>
 
           {/* Salutation */}
-          <h3 className="font-script text-2xl md:text-3xl text-[#D38B9C] mb-4">
+          <motion.h3
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+            className="font-script text-2xl md:text-3xl text-[#D38B9C] mb-4"
+          >
             {LETTER_CONTENT.heading}
-          </h3>
+          </motion.h3>
 
-          {/* Scrollable Letter Paragraphs */}
+          {/* Scrollable Letter Paragraphs with Staggered Fade-In */}
           <div
             ref={letterScrollRef}
             onScroll={handleScroll}
             className="font-script text-base md:text-lg text-gray-700 space-y-4 leading-relaxed max-h-[380px] md:max-h-[420px] overflow-y-auto pr-3 custom-scrollbar font-normal scroll-smooth pb-2"
           >
             {LETTER_CONTENT.paragraphs.map((para, i) => (
-              <p key={i} className="text-gray-700">
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.12, ease: 'easeOut' }}
+                className="text-gray-700"
+              >
                 {para}
-              </p>
+              </motion.p>
             ))}
 
-            {/* Letter Signoff - Ends Paper Naturally */}
-            <div className="pt-6 border-t border-[#F3EDE2] mt-4 pb-2">
+            {/* Letter Signoff */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
+              className="pt-6 border-t border-[#F3EDE2] mt-4 pb-2"
+            >
               <p className="font-script text-base text-[#C5A059]">{LETTER_CONTENT.closing}</p>
               <p className="font-script text-xl md:text-2xl text-[#D38B9C] font-semibold mt-0.5">
                 {LETTER_CONTENT.sender}
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </motion.div>
@@ -94,9 +112,9 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
       <AnimatePresence>
         {hasScrolledToBottom && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
             className="mt-16 md:mt-24 text-center flex flex-col items-center justify-center space-y-3 z-20 max-w-md px-4 pb-12"
           >
             <h4 className="font-script text-2xl md:text-3xl text-[#D38B9C] font-semibold">
