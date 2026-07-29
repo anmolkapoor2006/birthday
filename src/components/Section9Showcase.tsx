@@ -47,10 +47,10 @@ function ShowcaseCard({
       ? [0, end, exitEnd]
       : [Math.max(0, start - step * 0.45), start, end, exitEnd],
     isLast
-      ? ['100%', '0%', '0%']
+      ? ['120%', '0%', '0%']
       : index === 0
       ? ['0%', '0%', '-120%']
-      : ['100%', '0%', '0%', '-120%']
+      : ['120%', '0%', '0%', '-120%']
   );
 
   const scale = useTransform(
@@ -146,7 +146,7 @@ export default function Section9Showcase({
             
             <div
               className={cn(
-                'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl z-10 shadow-xl shadow-pink-200/25',
+                'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl z-10 shadow-xl shadow-pink-200/25 isolate',
                 containerClassName
               )}
             >
