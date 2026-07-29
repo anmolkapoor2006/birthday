@@ -74,7 +74,7 @@ function ShowcaseCard({
         opacity,
         zIndex: index,
       }}
-      className="absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border-4 border-white shadow-2xl shadow-pink-300/40 transform-gpu will-change-transform"
+      className="absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border border-pink-100/70 shadow-2xl shadow-pink-300/40 transform-gpu will-change-transform"
     >
       <div className="w-full h-full relative bg-pink-50">
         <Image
@@ -140,14 +140,15 @@ export default function Section9Showcase({
           </div>
 
           {/* Middle Card Stack Frame */}
-          <div className="sticky-cards-container relative flex h-[54vh] max-h-[480px] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl aspect-[16/10] items-center justify-center my-auto p-2 overflow-hidden rounded-3xl z-10 flex-shrink-0">
+          <div className="sticky-cards-container relative flex h-[54vh] max-h-[480px] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl aspect-[16/10] items-center justify-center my-auto p-2 z-10 flex-shrink-0">
             
-            {/* Ambient Soft Glow */}
-            <div className="absolute w-80 h-80 sm:w-[480px] sm:h-[480px] md:w-[600px] md:h-[600px] bg-gradient-to-tr from-pink-300/30 via-rose-200/40 to-purple-200/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            {/* Ultra-Soft Floating Ambient Gradient Glow */}
+            <div className="absolute w-80 h-80 sm:w-[500px] sm:h-[500px] md:w-[640px] md:h-[640px] bg-gradient-to-tr from-pink-300/35 via-rose-200/40 to-purple-200/35 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute w-72 h-72 sm:w-[420px] sm:h-[420px] bg-gradient-to-br from-rose-300/25 via-pink-200/35 to-amber-100/30 rounded-full blur-2xl pointer-events-none" />
 
             <div
               className={cn(
-                'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl z-10',
+                'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl z-10 shadow-2xl shadow-pink-200/50',
                 containerClassName
               )}
             >
