@@ -191,7 +191,7 @@ export default function Section9Showcase({
       </div>
 
       {/* Sticky Cards Pin Area */}
-      <div className="sticky-cards-container relative flex h-[58vh] max-h-[500px] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl items-center justify-center my-auto p-2">
+      <div className="sticky-cards-container relative flex h-[46vh] max-h-[380px] md:max-h-[420px] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl aspect-[16/10] items-center justify-center my-auto p-2 overflow-hidden rounded-3xl border border-pink-100/60 shadow-2xl shadow-pink-200/50 bg-white/40 backdrop-blur-xs z-10">
         
         {/* Soft Ambient Floating Gradient Glow */}
         <div className="absolute w-80 h-80 sm:w-[480px] sm:h-[480px] md:w-[600px] md:h-[600px] bg-gradient-to-tr from-pink-300/30 via-rose-200/40 to-purple-200/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
@@ -199,7 +199,7 @@ export default function Section9Showcase({
 
         <div
           className={cn(
-            'relative h-full w-full aspect-[16/10] z-10',
+            'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl z-10',
             containerClassName
           )}
         >
@@ -210,7 +210,7 @@ export default function Section9Showcase({
                 imageRefs.current[i] = el;
               }}
               className={cn(
-                'absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border border-pink-100/70 shadow-xl shadow-pink-200/40 transform-gpu will-change-transform',
+                'absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border border-pink-100/80 shadow-lg shadow-pink-200/30 transform-gpu will-change-transform',
                 imageClassName
               )}
             >
@@ -221,7 +221,7 @@ export default function Section9Showcase({
                   alt="Showcase photo"
                   fill
                   className="object-cover object-center"
-                  sizes="(max-width: 768px) 380px, 420px"
+                  sizes="(max-width: 768px) 380px, 480px"
                   priority={i === 0}
                   unoptimized
                 />
@@ -234,20 +234,20 @@ export default function Section9Showcase({
         </div>
       </div>
 
-      {/* Fixed-Height Footer (prevents middle card deck from shrinking/compressing on last photo) */}
-      <div className="h-[140px] min-h-[140px] flex-shrink-0 w-full max-w-md flex flex-col items-center justify-center relative z-20 px-2 pb-2">
+      {/* Fixed-Height Footer */}
+      <div className="h-[90px] min-h-[90px] flex-shrink-0 w-full max-w-md flex flex-col items-center justify-center relative z-20 px-2 pb-2">
         {isCompleted ? (
-          <div className="w-full p-4 bg-white/95 backdrop-blur-md rounded-2xl border border-pink-100 shadow-lg text-center flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-300">
-            <h3 className="font-script text-2xl text-[#D38B9C] mb-1">
+          <div className="w-full p-3 bg-white/95 backdrop-blur-md rounded-2xl border border-pink-100 shadow-lg text-center flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-300">
+            <h3 className="font-script text-xl md:text-2xl text-[#D38B9C] mb-0.5">
               {STORY_CONTINUES.heading}
             </h3>
-            <p className="font-sans text-[11px] text-gray-600 mb-3 max-w-xs leading-tight">
+            <p className="font-sans text-[11px] text-gray-600 mb-2 max-w-xs leading-tight">
               {STORY_CONTINUES.subheading}
             </p>
 
             <button
               onClick={onReplay}
-              className="flex items-center space-x-2 px-6 py-2.5 bg-gradient-to-r from-[#FFE3E8] to-[#FFD3DC] hover:from-[#FFD3DC] hover:to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer"
+              className="flex items-center space-x-2 px-5 py-2 bg-gradient-to-r from-[#FFE3E8] to-[#FFD3DC] hover:from-[#FFD3DC] hover:to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Replay surprise</span>
