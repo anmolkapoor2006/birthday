@@ -2,7 +2,6 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Sparkles } from 'lucide-react';
 import { LETTER_CONTENT } from '@/constants/content';
 import { triggerHapticFeedback } from '@/utils/haptics';
 import { playPopSound } from '@/utils/audio';
@@ -19,29 +18,16 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
     const el = letterScrollRef.current;
     if (!el) return;
 
-    // Detect if user has scrolled near bottom (within 40px)
-    const isAtBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 40;
+    // Detect if user has scrolled near bottom (within 30px)
+    const isAtBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 30;
     if (isAtBottom && !hasScrolledToBottom) {
       setHasScrolledToBottom(true);
       triggerHapticFeedback([20, 30]);
     }
   };
 
-  const handleWheel = (e: React.WheelEvent) => {
-    const el = letterScrollRef.current;
-    if (!el) return;
-
-    const isAtBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 10;
-    // If already at bottom and scrolling down again, advance to showcase
-    if (isAtBottom && e.deltaY > 20) {
-      triggerHapticFeedback([30]);
-      playPopSound();
-      onContinue();
-    }
-  };
-
   const handleButtonClick = () => {
-    triggerHapticFeedback([40]);
+    triggerHapticFeedback([40, 50]);
     playPopSound();
     onContinue();
   };
@@ -85,8 +71,7 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
           <div
             ref={letterScrollRef}
             onScroll={handleScroll}
-            onWheel={handleWheel}
-            className="font-script text-base md:text-lg text-gray-700 space-y-4 leading-relaxed max-h-[380px] md:max-h-[420px] overflow-y-auto pr-3 custom-scrollbar font-normal scroll-smooth"
+            className="font-script text-base md:text-lg text-gray-700 space-y-4 leading-relaxed max-h-[380px] md:max-h-[420px] overflow-y-auto pr-3 custom-scrollbar font-normal scroll-smooth pb-4"
           >
             {LETTER_CONTENT.paragraphs.map((para, i) => (
               <p key={i} className="text-gray-700">
@@ -101,31 +86,46 @@ export default function Section8Letter({ onContinue }: Section8LetterProps) {
                 {LETTER_CONTENT.sender}
               </p>
             </div>
+
+            {/* Emotional Ending Message & Button - Smoothly Fades In When Scrolled To End */}
+            <AnimatePresence>
+              {hasScrolledToBottom && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                  className="mt-6 pt-5 border-t border-[#F3EDE2] text-center flex flex-col items-center justify-center space-y-2 bg-[#FFF9F2]/70 p-4 rounded-2xl border border-pink-100/60 shadow-xs"
+                >
+                  <p className="font-script text-xl md:text-2xl text-[#D38B9C] font-semibold">
+                    💌 You’ve reached the end of my letter.
+                  </p>
+                  <p className="font-sans text-xs text-gray-600 max-w-sm leading-relaxed">
+                    Thank you for reading every word. There’s one last surprise waiting for you.
+                  </p>
+                  <motion.button
+                    onClick={handleButtonClick}
+                    whileHover={{ scale: 1.04, boxShadow: '0 8px 25px rgba(244,114,182,0.35)' }}
+                    whileTap={{ scale: 0.97 }}
+                    className="mt-3 flex items-center space-x-2 px-7 py-3 bg-gradient-to-r from-[#FFE3E8] via-[#FFD3DC] to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs md:text-sm rounded-full shadow-md hover:shadow-pink-300/50 transition-all duration-300 cursor-pointer border border-pink-100"
+                  >
+                    <span>Continue to the Final Surprise ✨</span>
+                  </motion.button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
-        {/* Footer Navigation Bar */}
-        <div className="mt-4 pt-3 border-t border-[#F3EDE2] flex justify-between items-center relative z-10">
-          <div className="text-[11px] font-sans text-gray-400">
-            {!hasScrolledToBottom ? 'Scroll down to finish reading 📜' : 'End of letter ✨'}
+        {/* Footer Indicator Bar */}
+        <div className="mt-4 pt-3 border-t border-[#F3EDE2] flex justify-between items-center relative z-10 text-xs font-sans text-gray-400">
+          <div>
+            {!hasScrolledToBottom ? 'Scroll down to finish reading 📜' : 'End of letter 💌'}
           </div>
-
-          {/* Button shows smoothly when scrolled to bottom or available */}
-          <AnimatePresence>
-            <motion.button
-              onClick={handleButtonClick}
-              initial={{ opacity: 0.6, scale: 0.95 }}
-              animate={
-                hasScrolledToBottom
-                  ? { opacity: 1, scale: [1, 1.04, 1], transition: { repeat: Infinity, duration: 2 } }
-                  : { opacity: 0.7, scale: 1 }
-              }
-              className="flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r from-[#FFE3E8] to-[#FFD3DC] hover:from-[#FFD3DC] hover:to-[#FFC0CB] text-[#D38B9C] font-semibold text-xs md:text-sm rounded-full shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer"
-            >
-              <span>Move to next page</span>
-              <ChevronRight className="w-4 h-4" />
-            </motion.button>
-          </AnimatePresence>
+          {hasScrolledToBottom && (
+            <span className="text-[11px] text-[#D38B9C] font-medium animate-pulse">
+              Final surprise unlocked ✨
+            </span>
+          )}
         </div>
       </motion.div>
 
