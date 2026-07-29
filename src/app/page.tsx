@@ -180,7 +180,7 @@ export default function Home() {
       cursorColor="#d9648a"
       className="min-h-screen"
     >
-      <main className="relative min-h-[100dvh] w-full bg-gradient-to-tr from-[#FAF6F0] via-[#FFF0F2] to-[#F3E8FF] overflow-hidden flex flex-col justify-between">
+      <main className="relative min-h-[100dvh] w-full bg-gradient-to-tr from-[#FAF6F0] via-[#FFF0F2] to-[#F3E8FF] flex flex-col justify-between">
         {/* Floating particles background across the whole site */}
         <BackgroundParticles />
         {/* Heart & Rose Petal drop effect on background clicks */}
