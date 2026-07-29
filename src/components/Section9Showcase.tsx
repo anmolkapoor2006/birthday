@@ -17,7 +17,7 @@ interface Section9ShowcaseProps {
 
 /**
  * Individual Showcase Card Component
- * Animates ONLY transform GPU properties (y, scale, rotate) driven by normalized scroll progress.
+ * Clean white container with floating drop shadow. Zero image overlays, zero blur filters.
  */
 function ShowcaseCard({
   photo,
@@ -34,12 +34,11 @@ function ShowcaseCard({
   const start = index * step;
   const end = (index + 1) * step;
 
-  // Organic rotation angles per card index to look like a physical polaroid stack
+  // Organic tilt angles per card
   const targetRotation = index % 4 === 0 ? 4 : index % 4 === 1 ? -4.5 : index % 4 === 2 ? 3 : -3.5;
-
   const exitEnd = Math.min(1, end + step * 0.7);
 
-  // Card 0 starts at y:0. Cards 1..N slide up from 100% to 0%. Past cards slide UP out of view to -120%
+  // GPU Transforms: translate3d (y), scale, rotate
   const y = useTransform(
     scrollYProgress,
     index === 0
@@ -50,21 +49,18 @@ function ShowcaseCard({
       : ['100%', '0%', '0%', '-120%']
   );
 
-  // Active card scales to 1; as next card covers it, scale down to 0.8
   const scale = useTransform(
     scrollYProgress,
     [start, end],
     [1, index === total - 1 ? 1 : 0.8]
   );
 
-  // Smooth rotation into background tilt position as next card enters
   const rotate = useTransform(
     scrollYProgress,
     [start, end],
     [0, index === total - 1 ? 0 : targetRotation]
   );
 
-  // Card fades out as it exits upward so old cards don't pile up at the bottom
   const opacity = useTransform(
     scrollYProgress,
     [start, end, exitEnd],
@@ -80,7 +76,7 @@ function ShowcaseCard({
         opacity,
         zIndex: index,
       }}
-      className="absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white border border-pink-100/60 shadow-[0_20px_50px_rgba(244,114,182,0.18)] transform-gpu will-change-transform"
+      className="absolute inset-0 h-full w-full rounded-3xl overflow-hidden bg-white shadow-xl shadow-pink-200/30 transform-gpu will-change-transform"
     >
       <div className="w-full h-full relative bg-white">
         <Image
@@ -98,12 +94,9 @@ function ShowcaseCard({
 }
 
 /**
- * Skiper UI Exact Scroll Architecture Implementation
- * 1. Single outer wrapper with calculated height (photos.length * 60vh)
- * 2. Inner sticky container (position: sticky; top: 0; height: 100vh)
- * 3. Animated GPU transforms driven by normalized scroll progress
- * 4. Natural release after last card into normal document page scroll
- * 5. Exactly ONE page scrollbar, 0 overflow hacks, 0 nested scroll containers
+ * Skiper UI Scroll Showcase
+ * Soft background gradient attached strictly to page background (-z-10).
+ * Cards float cleanly with subtle box-shadows. Zero backdrop-filters or image overlays.
  */
 export default function Section9Showcase({
   onReplay,
@@ -114,7 +107,6 @@ export default function Section9Showcase({
   const targetRef = useRef<HTMLDivElement | null>(null);
   const totalPhotos = photos.length;
 
-  // Normalized scroll progress (0 -> 1) scoped strictly to targetRef
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ['start start', 'end end'],
@@ -122,6 +114,9 @@ export default function Section9Showcase({
 
   return (
     <div className="w-full relative select-none">
+      {/* Outer Section Background Layer - Fixed behind all content */}
+      <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-[#FFF5F7] via-[#FFEBF0] to-[#FAF0F4] pointer-events-none -z-10" />
+
       {/* 1. Outer Wrapper with Calculated Scroll Height */}
       <div
         ref={targetRef}
@@ -142,15 +137,12 @@ export default function Section9Showcase({
             </p>
           </div>
 
-          {/* Middle Card Stack Frame */}
+          {/* Middle Card Stack Frame Container */}
           <div className="sticky-cards-container relative flex h-[54vh] max-h-[480px] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl aspect-[16/10] items-center justify-center my-auto p-2 z-10 flex-shrink-0">
             
-            {/* Ultra-Soft Background Ambient Glow (positioned safely behind cards) */}
-            <div className="absolute w-[500px] h-[500px] md:w-[680px] md:h-[680px] bg-gradient-to-tr from-pink-200/30 via-rose-100/35 to-purple-200/25 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse" />
-
             <div
               className={cn(
-                'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl z-10 shadow-2xl shadow-pink-200/50',
+                'relative h-full w-full aspect-[16/10] overflow-hidden rounded-3xl z-10 shadow-xl shadow-pink-200/25',
                 containerClassName
               )}
             >
@@ -166,7 +158,7 @@ export default function Section9Showcase({
             </div>
           </div>
 
-          {/* Footer Hint inside sticky section */}
+          {/* Footer Hint */}
           <div className="h-[40px] flex-shrink-0 w-full flex items-center justify-center relative z-20 pb-2">
             <div className="text-center text-xs text-gray-400 font-sans tracking-wide">
               Scroll down to flip through our memories ✨
@@ -175,9 +167,9 @@ export default function Section9Showcase({
         </div>
       </div>
 
-      {/* 3. Replay Surprise Block (Normal Document Flow - Appears after sticky container releases) */}
-      <div className="w-full py-20 px-4 flex flex-col items-center justify-center relative z-20 bg-gradient-to-b from-transparent to-pink-50/50">
-        <div className="w-full max-w-md p-8 bg-white/90 backdrop-blur-md rounded-3xl border border-pink-100 shadow-xl text-center flex flex-col items-center justify-center">
+      {/* Replay Surprise Block (Appears after sticky container releases) */}
+      <div className="w-full py-20 px-4 flex flex-col items-center justify-center relative z-20">
+        <div className="w-full max-w-md p-8 bg-white rounded-3xl border border-pink-100 shadow-xl text-center flex flex-col items-center justify-center">
           <h3 className="font-script text-3xl md:text-4xl text-[#D38B9C] mb-3">
             {STORY_CONTINUES.heading}
           </h3>
