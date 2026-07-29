@@ -28,7 +28,7 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState<number>(0.8);
+  const [volume, setVolume] = useState<number>(0.1); // 10% default background music volume
 
   // Synchronize audio elements & event listeners
   useEffect(() => {
@@ -41,8 +41,13 @@ export default function Home() {
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration || 0);
     const handleEnded = () => {
-      setIsPlaying(false);
-      setCurrentTime(0);
+      // Auto advance to next song in playlist
+      setCurrentSong((prevSong) => {
+        const currentIndex = songs.findIndex((s) => s.id === prevSong.id);
+        const nextIndex = (currentIndex + 1) % songs.length;
+        return songs[nextIndex];
+      });
+      setIsPlaying(true);
     };
 
     audio.addEventListener('timeupdate', updateTime);
