@@ -34,37 +34,41 @@ function ShowcaseCard({
   const start = index * step;
   const end = (index + 1) * step;
 
-  // Organic tilt angles per card
+  const isLast = index === total - 1;
   const targetRotation = index % 4 === 0 ? 4 : index % 4 === 1 ? -4.5 : index % 4 === 2 ? 3 : -3.5;
   const exitEnd = Math.min(1, end + step * 0.7);
 
   // GPU Transforms: translate3d (y), scale, rotate
   const y = useTransform(
     scrollYProgress,
-    index === 0
+    isLast
+      ? [Math.max(0, start - step * 0.45), start, 1]
+      : index === 0
       ? [0, end, exitEnd]
       : [Math.max(0, start - step * 0.45), start, end, exitEnd],
-    index === 0
+    isLast
+      ? ['100%', '0%', '0%']
+      : index === 0
       ? ['0%', '0%', '-120%']
       : ['100%', '0%', '0%', '-120%']
   );
 
   const scale = useTransform(
     scrollYProgress,
-    [start, end],
-    [1, index === total - 1 ? 1 : 0.8]
+    isLast ? [start, 1] : [start, end],
+    isLast ? [1, 1] : [1, 0.8]
   );
 
   const rotate = useTransform(
     scrollYProgress,
-    [start, end],
-    [0, index === total - 1 ? 0 : targetRotation]
+    isLast ? [start, 1] : [start, end],
+    isLast ? [0, 0] : [0, targetRotation]
   );
 
   const opacity = useTransform(
     scrollYProgress,
-    [start, end, exitEnd],
-    [1, 1, 0]
+    isLast ? [0, 1] : [start, end, exitEnd],
+    isLast ? [1, 1] : [1, 1, 0]
   );
 
   return (
