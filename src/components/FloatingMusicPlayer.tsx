@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Music, ListMusic, Volume2, VolumeX, Disc, Radio } from 'lucide-react';
+import { Play, Pause, Music, ListMusic, Volume2, VolumeX, Disc } from 'lucide-react';
 import { songs, Song } from '@/constants/content';
 
 interface FloatingMusicPlayerProps {
@@ -136,16 +135,6 @@ export default function FloatingMusicPlayer({
                 {volume === 0 ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
               </button>
             </div>
-
-            {/* Quick Vintage Tape Player Link */}
-            <Link
-              href="/voicenotes"
-              className="flex items-center justify-center space-x-1.5 w-full py-1.5 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white rounded-xl text-[11px] font-semibold transition-all shadow-xs"
-            >
-              <Radio className="w-3.5 h-3.5" />
-              <span>Vintage Tape Voice Notes 🎙️</span>
-            </Link>
-
 
             {/* Playlist Dropdown */}
             <AnimatePresence>
